@@ -7,3 +7,57 @@ nav{
     display: inline;
     color: rgb(220, 61, 55);
 }
+#first_text
+{
+    text-align: center;
+
+}
+.first-block
+{
+   border: 2px solid yellow;
+  display: inline-block; /* border just around content */
+  padding: 10px; /* add some spacing */  
+}
+
+#second_img
+{
+    border: solid yellow 2px;
+}
+
+#second_text
+{
+   text-align: center;
+    
+}
+ .code-box {
+
+  border: 2px solid yellow;
+  display: inline-block; /* border just around content */
+  padding: 10px; /* add some spacing */
+}
+
+
+#third_img
+{
+    border: solid yellow 1px;
+}
+
+#third_text
+{
+    border: solid yellow 2px;
+}
+
+#four_img
+{
+    border: solid yellow 2px;
+}
+
+#four_text
+{
+    border: solid yellow 2px;
+}
+
+.logo
+{
+    text:red
+}

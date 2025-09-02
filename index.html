@@ -33,8 +33,9 @@
           </li>
 
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+        <form class="d-flex" role="search" action="https://www.youtube.com/results" method="GET" target="_blank">
+          <!-- to make search bar work on youtube  use action="https://www.youtube.com/results" and in input use name as "search_query" -->
+          <input class="form-control me-2" name="search_query" type="search" placeholder="Youtube Search here " aria-label="Search" />
           <button class="btn btn-success" type="submit">Search</button>
         </form>
       </div>

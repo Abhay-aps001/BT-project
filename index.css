@@ -61,3 +61,14 @@ nav{
 {
     text:red
 }
+#abc
+{
+ padding-left: 250px; 
+ color:white;  
+}
+#abc:hover
+{
+    color: yellow;
+    transform: scale(1.1);
+    transition: 0.3s;
+}

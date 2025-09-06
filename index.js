@@ -26,9 +26,25 @@
 
 // To Do List Application
 
-// let input=prompt("Start The To-Do list ? yes/quit");
-// while(input!=='quit'){
-// input=prompt("What would you like to do? (new/list/delete/quit)");
-// console.log(input);
-// }
-// console.log("You quit the To-Do List");
+let input=prompt("Start The To-Do list ? yes/quit");
+const todos=[];
+while(input!=='quit'){
+input=prompt("What would you like to do? (list/delete/quit)");
+if(input==='list'){
+    let list=prompt("enter the list name");
+    todos.push(list);
+    for(let i=0;i<todos.length;i++){
+        console.log(`${i}: ${todos[i]}`);
+    }
+    console.log("updated list is:");
+    console.log(todos);
+    // for(let i=0;i<todos.length;i++){
+}
+else if(input=='delete'){
+    let index=prompt("Enter the index of the item to delete:");
+    todos.splice(index,1);
+    console.log("updated list is:");
+    console.log(todos);
+}
+}
+console.log("You quit the To-Do List");

@@ -47,4 +47,4 @@ else if(input=='delete'){
     console.log(todos);
 }
 }
-console.log("You quit the To-Do List");
+console.log(`hellow u quit the game`);

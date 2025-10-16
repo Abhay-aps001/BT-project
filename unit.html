@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="unit.css">
+    <title>Unit converter</title>
+</head>
+
+<body>
+    <!-- <h1>Unit Converter</h1> -->
+     
+<!-- As a link -->
+<nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">Home</a>
+    <a class="navbar-brand" id="heading" >Unit Converter</a>
+  </div>
+</nav>
+
+
+<!-- Convetrer code begins here -->
+
+<!-- Unit Converter -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Unit Converter</h5>
+        </div>
+        <div class="card-body">
+          <!-- Category Selection -->
+          <div class="mb-3">
+            <label for="category" class="form-label">Select Category</label>
+            <select class="form-select" id="category">
+              <option value="length">Length</option>
+              <option value="weight">Weight</option>
+              <option value="temperature">Temperature</option>
+              <option value="volume">Volume</option>
+            </select>
+          </div>
+
+          <!-- Input Section -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="inputValue" class="form-label">From</label>
+              <input type="number" class="form-control" id="inputValue" placeholder="Enter value" value="0">
+              <small class="text-muted" id="fromUnit">Meters</small>
+            </div>
+            <div class="col-md-6">
+              <label for="outputValue" class="form-label">To</label>
+              <input type="number" class="form-control" id="outputValue" placeholder="Result" readonly>
+              <small class="text-muted" id="toUnit">Kilometers</small>
+            </div>
+          </div>
+
+          <!-- Unit Selection -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="fromUnitSelect" class="form-label">From Unit</label>
+              <select class="form-select" id="fromUnitSelect">
+                <option value="m">Meters</option>
+                <option value="km">Kilometers</option>
+                <option value="cm">Centimeters</option>
+                <option value="ft">Feet</option>
+                <option value="in">Inches</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="toUnitSelect" class="form-label">To Unit</label>
+              <select class="form-select" id="toUnitSelect">
+                <option value="m">Meters</option>
+                <option value="km">Kilometers</option>
+                <option value="cm">Centimeters</option>
+                <option value="ft">Feet</option>
+                <option value="in">Inches</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Reset Button -->
+          <button class="btn btn-secondary w-100" onclick="resetConverter()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const conversions = {
+  length: {
+    m: { km: 0.001, cm: 100, ft: 3.28084, in: 39.3701, m: 1 },
+    km: { m: 1000, cm: 100000, ft: 3280.84, in: 39370.1, km: 1 },
+    cm: { m: 0.01, km: 0.00001, ft: 0.0328084, in: 0.393701, cm: 1 },
+    ft: { m: 0.3048, km: 0.0003048, cm: 30.48, in: 12, ft: 1 },
+    in: { m: 0.0254, km: 0.0000254, cm: 2.54, ft: 0.0833333, in: 1 }
+  },
+  weight: {
+    kg: { g: 1000, lb: 2.20462, oz: 35.274, kg: 1 },
+    g: { kg: 0.001, lb: 0.00220462, oz: 0.035274, g: 1 },
+    lb: { kg: 0.453592, g: 453.592, oz: 16, lb: 1 },
+    oz: { kg: 0.0283495, g: 28.3495, lb: 0.0625, oz: 1 }
+  },
+  temperature: {
+    c: { f: null, k: null, c: 1 },
+    f: { c: null, k: null, f: 1 },
+    k: { c: null, f: null, k: 1 }
+  },
+  volume: {
+    l: { ml: 1000, gal: 0.264172, pt: 2.11338, l: 1 },
+    ml: { l: 0.001, gal: 0.000264172, pt: 0.00211338, ml: 1 },
+    gal: { l: 3.78541, ml: 3785.41, pt: 8, gal: 1 },
+    pt: { l: 0.473176, ml: 473.176, gal: 0.125, pt: 1 }
+  }
+};
+
+const unitLabels = {
+  length: { m: 'Meters', km: 'Kilometers', cm: 'Centimeters', ft: 'Feet', in: 'Inches' },
+  weight: { kg: 'Kilograms', g: 'Grams', lb: 'Pounds', oz: 'Ounces' },
+  temperature: { c: 'Celsius', f: 'Fahrenheit', k: 'Kelvin' },
+  volume: { l: 'Liters', ml: 'Milliliters', gal: 'Gallons', pt: 'Pints' }
+};
+
+const categoryUnits = {
+  length: ['m', 'km', 'cm', 'ft', 'in'],
+  weight: ['kg', 'g', 'lb', 'oz'],
+  temperature: ['c', 'f', 'k'],
+  volume: ['l', 'ml', 'gal', 'pt']
+};
+
+function updateUnitOptions() {
+  const category = document.getElementById('category').value;
+  const units = categoryUnits[category];
+  const fromSelect = document.getElementById('fromUnitSelect');
+  const toSelect = document.getElementById('toUnitSelect');
+
+  fromSelect.innerHTML = units.map(u => `<option value="${u}">${unitLabels[category][u]}</option>`).join('');
+  toSelect.innerHTML = units.map(u => `<option value="${u}">${unitLabels[category][u]}</option>`).join('');
+  toSelect.value = units.length > 1 ? units[1] : units[0];
+
+  convert();
+}
+
+function convert() {
+  const category = document.getElementById('category').value;
+  const inputValue = parseFloat(document.getElementById('inputValue').value) || 0;
+  const fromUnit = document.getElementById('fromUnitSelect').value;
+  const toUnit = document.getElementById('toUnitSelect').value;
+
+  document.getElementById('fromUnit').textContent = unitLabels[category][fromUnit];
+  document.getElementById('toUnit').textContent = unitLabels[category][toUnit];
+
+  if (category === 'temperature') {
+    document.getElementById('outputValue').value = convertTemperature(inputValue, fromUnit, toUnit).toFixed(6);
+  } else {
+    const factor = conversions[category][fromUnit][toUnit];
+    document.getElementById('outputValue').value = (inputValue * factor).toFixed(6);
+  }
+}
+
+function convertTemperature(value, from, to) {
+  let celsius;
+  if (from === 'c') celsius = value;
+  else if (from === 'f') celsius = (value - 32) * 5/9;
+  else if (from === 'k') celsius = value - 273.15;
+
+  if (to === 'c') return celsius;
+  else if (to === 'f') return celsius * 9/5 + 32;
+  else if (to === 'k') return celsius + 273.15;
+}
+
+function resetConverter() {
+  document.getElementById('inputValue').value = '0';
+  document.getElementById('outputValue').value = '0';
+  document.getElementById('category').value = 'length';
+  updateUnitOptions();
+}
+
+document.getElementById('category').addEventListener('change', updateUnitOptions);
+document.getElementById('inputValue').addEventListener('input', convert);
+document.getElementById('fromUnitSelect').addEventListener('change', convert);
+document.getElementById('toUnitSelect').addEventListener('change', convert);
+
+updateUnitOptions();
+</script>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
